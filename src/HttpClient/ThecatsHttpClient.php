@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rszewc\Thecats\HttpClient;
 
-use Rszewc\Thecats\Exception\ApiException;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Client;
 use Psr\Log\NullLogger;
