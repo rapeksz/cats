@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Rszewc\Thecats\Api;
 
-use Rszewc\Thecats\Model\ApiResponse;
 use Rszewc\Thecats\Exception\ApiException;
 use Rszewc\Thecats\HttpClient\ThecatsHttpClient;
 use Psr\Http\Message\ResponseInterface;
+use Illuminate\Support\Collection;
 
 abstract class HttpApi
 {
@@ -24,7 +24,13 @@ abstract class HttpApi
         $this->httpClient = $httpClient;
     }
 
-    protected function prepareResponse(ResponseInterface $response, string $class = '')
+    /**
+     * @param ResponseInterface $response
+     * @param string $class
+     * @return Collection
+     * @throws ApiException
+     */
+    protected function prepareResponse(ResponseInterface $response, string $class) : Collection
     {
         $statusCode = $response->getStatusCode();
         if ($statusCode < 200 || $statusCode > 299) {
@@ -37,15 +43,16 @@ abstract class HttpApi
         return $this->buildResponse($response, $class);
     }
 
-    private function buildResponse(ResponseInterface $response, string $class = '')
+    /**
+     * @param ResponseInterface $response
+     * @param string $class
+     * @return Collection
+     */
+    private function buildResponse(ResponseInterface $response, string $class = '') : Collection
     {
         $body = $response->getBody()->__toString();
         $data = json_decode($body, true);
-        if (is_subclass_of($class, ApiResponse::class)) {
-            $object = call_user_func($class . '::create', $data);
-        } else {
-            $object = new $class($data);
-        }
-        return $object;
+        $objects = call_user_func($class . '::createFromArray', $data);
+        return $objects;
     }
 }
