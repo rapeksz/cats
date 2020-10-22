@@ -6,6 +6,7 @@ namespace Rszewc\Thecats\Api;
 
 use Rszewc\Thecats\Exception\ApiException;
 use Rszewc\Thecats\HttpClient\ThecatsHttpClient;
+use Rszewc\Thecats\Model\StatusResponse;
 use Psr\Http\Message\ResponseInterface;
 use Illuminate\Support\Collection;
 
@@ -40,7 +41,19 @@ abstract class HttpApi
                 $response
             );
         }
-        return $this->buildResponse($response, $class);
+        return $this->buildCollection($response, $class);
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @return StatusResponse
+     */
+    protected function buildStatusResponse(ResponseInterface $response) : StatusResponse
+    {
+        $body = $response->getBody()->__toString();
+        $bodyDecoded = json_decode($body, true);
+        $statusResponse = StatusResponse::create($bodyDecoded);
+        return $statusResponse;
     }
 
     /**
@@ -48,7 +61,7 @@ abstract class HttpApi
      * @param string $class
      * @return Collection
      */
-    private function buildResponse(ResponseInterface $response, string $class = '') : Collection
+    private function buildCollection(ResponseInterface $response, string $class = '') : Collection
     {
         $body = $response->getBody()->__toString();
         $data = json_decode($body, true);

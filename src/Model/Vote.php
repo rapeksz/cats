@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Rszewc\Thecats\Model;
 
 use Illuminate\Support\Collection;
+use JsonSerializable;
 use Carbon\Carbon;
 
-class Vote
+class Vote implements JsonSerializable, ApiResponse
 {
     /**
      * @var string
@@ -65,4 +66,37 @@ class Vote
         }
         return $model;
     }
+
+    /**
+     * @return array
+     */
+    public function __toArray() : array
+    {
+        $vars = [
+            'image_id' => $this->imageId,
+            'value' => $this->value,
+        ];
+        if (!is_null($this->id)) {
+            $vars['id'] = $this->id;
+        }
+        if (!is_null($this->subId)) {
+            $vars['sub_id'] = $this->subId;
+        }
+        if (!is_null($this->createdAt)) {
+            $vars['created_at'] = $this->createdAt;
+        }
+        if (!is_null($this->countryCode)) {
+            $vars['country_code'] = $this->countryCode;
+        }
+        return $vars;
+    }
+
+    /**
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return json_encode($this->__toArray());
+    }
+
 }

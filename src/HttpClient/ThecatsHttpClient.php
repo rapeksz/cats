@@ -34,6 +34,7 @@ class ThecatsHttpClient
             'base_uri' => $this->baseUri,
             'headers' => [
                 'x-api-key' => $apiToken,
+                'Content-Type' => 'application/json',
             ],
         ]);
     }
@@ -51,6 +52,24 @@ class ThecatsHttpClient
         }
         try {
             $response = $this->httpClient->get($path);
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+        }
+        return $response;
+    }
+
+    /**
+     * @param string $path
+     * @param array $parameters
+     * @param array $requestHeaders
+     * @return ResponseInterface
+     */
+    public function httpPost(string $path, array $parameters = []) : ?ResponseInterface
+    {
+        try {
+            $response = $this->httpClient->post($path, [
+                'json' => $parameters,
+            ]);
         } catch (ClientException $e) {
             $response = $e->getResponse();
         }
