@@ -13,7 +13,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Rszewc\\Thecats\\ServiceProvider"
+                "Rszewc\\Thecats\\CatsServiceProvider"
             ]
         }
     }
