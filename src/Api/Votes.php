@@ -43,4 +43,14 @@ class Votes extends HttpApi
         $preparedResponse = $this->prepareResponse($response);
         return $this->buildObject($preparedResponse, Vote::class);
     }
+
+    /**
+     * @param int $id
+     * @return StatusResponse
+     */
+    public function deleteById(int $id) : StatusResponse
+    {
+        $response = $this->httpClient->httpDelete('/v1/votes/' . $id);
+        return $this->buildStatusResponse($response);
+    }
 }

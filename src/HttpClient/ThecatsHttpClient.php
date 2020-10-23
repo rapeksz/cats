@@ -42,7 +42,6 @@ class ThecatsHttpClient
     /**
      * @param string $path
      * @param array $parameters
-     * @param array $requestHeaders
      * @return ResponseInterface
      */
     public function httpGet(string $path, array $parameters = []) : ?ResponseInterface
@@ -61,7 +60,6 @@ class ThecatsHttpClient
     /**
      * @param string $path
      * @param array $parameters
-     * @param array $requestHeaders
      * @return ResponseInterface
      */
     public function httpPost(string $path, array $parameters = []) : ?ResponseInterface
@@ -70,6 +68,20 @@ class ThecatsHttpClient
             $response = $this->httpClient->post($path, [
                 'json' => $parameters,
             ]);
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+        }
+        return $response;
+    }
+
+    /**
+     * @param string $path
+     * @return ResponseInterface
+     */
+    public function httpDelete(string $path) : ?ResponseInterface
+    {
+        try {
+            $response = $this->httpClient->delete($path);
         } catch (ClientException $e) {
             $response = $e->getResponse();
         }
