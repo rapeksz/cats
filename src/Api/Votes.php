@@ -18,7 +18,8 @@ class Votes extends HttpApi
     public function showAll() : Collection
     {
         $response = $this->httpClient->httpGet('/v1/votes');
-        return $this->prepareResponse($response, Vote::class);
+        $preparedResponse = $this->prepareResponse($response);
+        return $this->buildCollection($preparedResponse, Vote::class);
     }
 
     /**
@@ -30,5 +31,16 @@ class Votes extends HttpApi
         $parameters = $vote->__toArray();
         $response = $this->httpClient->httpPost('/v1/votes', $parameters);
         return $this->buildStatusResponse($response);
+    }
+
+    /**
+     * @param int $id
+     * @return Vote
+     */
+    public function getById(int $id) : Vote
+    {
+        $response = $this->httpClient->httpGet('/v1/votes/' . $id);
+        $preparedResponse = $this->prepareResponse($response);
+        return $this->buildObject($preparedResponse, Vote::class);
     }
 }

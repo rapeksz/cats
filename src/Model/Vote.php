@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Rszewc\Thecats\Model;
 
-use Illuminate\Support\Collection;
-use JsonSerializable;
 use Carbon\Carbon;
+use JsonSerializable;
 
-class Vote implements JsonSerializable, ApiResponse
+class Vote extends ModelFactory implements JsonSerializable, ApiResponse
 {
     /**
      * @var string
@@ -39,15 +38,6 @@ class Vote implements JsonSerializable, ApiResponse
      * @var string
      */
     private $countryCode;
-
-    public static function createFromArray(array $data) : Collection
-    {
-        $votes = new Collection();
-        foreach ($data as $voteData) {
-            $votes->push(self::create($voteData));
-        }
-        return $votes;
-    }
 
     /**
      * @param array $data

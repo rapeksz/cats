@@ -27,11 +27,10 @@ abstract class HttpApi
 
     /**
      * @param ResponseInterface $response
-     * @param string $class
-     * @return Collection
+     * @return ResponseInterface
      * @throws ApiException
      */
-    protected function prepareResponse(ResponseInterface $response, string $class) : Collection
+    protected function prepareResponse(ResponseInterface $response) : ResponseInterface
     {
         $statusCode = $response->getStatusCode();
         if ($statusCode < 200 || $statusCode > 299) {
@@ -41,7 +40,7 @@ abstract class HttpApi
                 $response
             );
         }
-        return $this->buildCollection($response, $class);
+        return $response;
     }
 
     /**
@@ -61,11 +60,32 @@ abstract class HttpApi
      * @param string $class
      * @return Collection
      */
-    private function buildCollection(ResponseInterface $response, string $class = '') : Collection
+    protected function buildCollection(ResponseInterface $response, string $class) : Collection
     {
-        $body = $response->getBody()->__toString();
-        $data = json_decode($body, true);
+        $data = $this->decodeResponse($response);
         $objects = call_user_func($class . '::createFromArray', $data);
         return $objects;
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @param string $class
+     * @return type
+     */
+    protected function buildObject(ResponseInterface $response, string $class)
+    {
+        $data = $this->decodeResponse($response);
+        $objects = call_user_func($class . '::create', $data);
+        return $objects;
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @return array
+     */
+    private function decodeResponse(ResponseInterface $response) : array
+    {
+        $body = $response->getBody()->__toString();
+        return json_decode($body, true);
     }
 }
