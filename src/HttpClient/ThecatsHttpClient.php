@@ -10,7 +10,7 @@ use Psr\Log\NullLogger;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 
-class ThecatsHttpClient
+class ThecatsHttpClient implements HttpClientInterface
 {
     use LoggerAwareTrait;
 
@@ -44,7 +44,7 @@ class ThecatsHttpClient
      * @param array $parameters
      * @return ResponseInterface
      */
-    public function httpGet(string $path, array $parameters = []) : ?ResponseInterface
+    public function httpGet(string $path, array $parameters = []) : ResponseInterface
     {
         if (count($parameters) > 0) {
             $path .= '?'.http_build_query($parameters);
@@ -62,7 +62,7 @@ class ThecatsHttpClient
      * @param array $parameters
      * @return ResponseInterface
      */
-    public function httpPost(string $path, array $parameters = []) : ?ResponseInterface
+    public function httpPost(string $path, array $parameters = []) : ResponseInterface
     {
         try {
             $response = $this->httpClient->post($path, [
