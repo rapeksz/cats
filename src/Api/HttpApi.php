@@ -8,6 +8,7 @@ use Rszewc\Thecats\Exception\ApiException;
 use Rszewc\Thecats\HttpClient\ThecatsHttpClient;
 use Rszewc\Thecats\Model\StatusResponse;
 use Psr\Http\Message\ResponseInterface;
+use Rszewc\Thecats\Model\ModelFactory;
 use Illuminate\Support\Collection;
 
 abstract class HttpApi
@@ -70,9 +71,9 @@ abstract class HttpApi
     /**
      * @param ResponseInterface $response
      * @param string $class
-     * @return type
+     * @return ModelFactory
      */
-    protected function buildObject(ResponseInterface $response, string $class)
+    protected function buildObject(ResponseInterface $response, string $class) : ModelFactory
     {
         $data = $this->decodeResponse($response);
         $objects = call_user_func($class . '::create', $data);

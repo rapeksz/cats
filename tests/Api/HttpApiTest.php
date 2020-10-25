@@ -11,6 +11,8 @@ use Rszewc\Thecats\HttpClient\ThecatsHttpClient;
 use Rszewc\Thecats\Exception\ApiException;
 use ReflectionClass;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Support\Collection;
+use Rszewc\Thecats\Model\Vote;
 use Psr\Http\Message\ResponseInterface;
 
 class HttpApiTest extends TestCase
@@ -53,6 +55,22 @@ class HttpApiTest extends TestCase
         ];
         $response = $this->invokeMethod($this->httpApi, 'buildStatusResponse', $params);
         $this->assertInstanceOf(StatusResponse::class, $response);
+    }
+
+    public function testBuildCollection()
+    {
+        $body = json_encode([
+            [
+                'image_id' => '1234',
+                'value' => 1234,
+            ]
+        ]);
+        $params = [
+            new Response(200, [], $body),
+            Vote::class,
+        ];
+        $response = $this->invokeMethod($this->httpApi, 'buildCollection', $params);
+        $this->assertInstanceOf(Collection::class, $response);
     }
 
     /**
