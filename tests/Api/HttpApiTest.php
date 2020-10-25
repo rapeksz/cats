@@ -73,6 +73,30 @@ class HttpApiTest extends TestCase
         $this->assertInstanceOf(Collection::class, $response);
     }
 
+    public function testBuildObject()
+    {
+        $body = json_encode([
+            'image_id' => '1234',
+            'value' => 1234,
+        ]);
+        $params = [
+            new Response(200, [], $body),
+            Vote::class,
+        ];
+        $response = $this->invokeMethod($this->httpApi, 'buildObject', $params);
+        $this->assertInstanceOf(Vote::class, $response);
+    }
+
+    public function testDecodeResponse()
+    {
+        $params = [
+            new Response(200, [], json_encode([])),
+            Vote::class,
+        ];
+        $response = $this->invokeMethod($this->httpApi, 'decodeResponse', $params);
+        $this->assertIsArray($response);
+    }
+
     /**
      * @param mixed $object
      * @param string $methodName
