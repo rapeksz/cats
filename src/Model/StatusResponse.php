@@ -41,6 +41,6 @@ class StatusResponse implements ApiResponse
      */
     public function getId() : ?int
     {
-        return $this->code;
+        return $this->id;
     }
 }
