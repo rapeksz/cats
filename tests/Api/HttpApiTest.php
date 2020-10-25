@@ -13,7 +13,6 @@ use ReflectionClass;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Collection;
 use Rszewc\Thecats\Model\Vote;
-use Psr\Http\Message\ResponseInterface;
 
 class HttpApiTest extends TestCase
 {
