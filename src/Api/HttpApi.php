@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Rszewc\Thecats\Api;
 
 use Rszewc\Thecats\Exception\ApiException;
-use Rszewc\Thecats\HttpClient\ThecatsHttpClient;
+use Rszewc\Thecats\HttpClient\HttpClientInterface;
 use Rszewc\Thecats\Model\StatusResponse;
 use Psr\Http\Message\ResponseInterface;
 use Rszewc\Thecats\Model\ModelFactory;
@@ -14,14 +14,14 @@ use Illuminate\Support\Collection;
 abstract class HttpApi
 {
     /**
-     * @var ThecatsHttpClient 
+     * @var HttpClientInterface
      */
     protected $httpClient;
 
     /**
-     * @param ThecatsHttpClient $httpClient
+     * @param HttpClientInterface $httpClient
      */
-    public function __construct(ThecatsHttpClient $httpClient)
+    public function __construct(HttpClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
     }

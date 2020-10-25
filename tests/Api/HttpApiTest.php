@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rszewc\Thecats\Tests\HttpApi;
+namespace Rszewc\Thecats\Tests\Api;
 
 use PHPUnit\Framework\TestCase;
 use Rszewc\Thecats\Api\HttpApi;
