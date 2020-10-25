@@ -8,7 +8,6 @@ use Rszewc\Thecats\Api\Votes;
 use Rszewc\Thecats\HttpClient\HttpClientInterface;
 use PHPUnit\Framework\TestCase;
 use Illuminate\Support\Collection;
-use Psr\Http\Message\ResponseInterface;
 use Rszewc\Thecats\Model\Vote;
 use Rszewc\Thecats\Model\ApiResponse;
 use GuzzleHttp\Psr7\Response;
