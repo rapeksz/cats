@@ -16,7 +16,7 @@ To **repositories** section:
 ]
 ```
 
-To **require* section:
+To **require** section:
 ```json
 "require": {
     "rszewc/thecats": "1.0.x"
@@ -41,7 +41,7 @@ php artisan vendor:publish --tag=config
 
 ## Setting up the Cats library
 
-Log in to your [polish version](https://thecatapi.com/) dashboard and get your API token.
+Log in to your [Cats](https://thecatapi.com/) dashboard and get your API token.
 Set your api token in `config/cats.php`:
 
 ```php
